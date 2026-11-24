@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel Administrativo - Kersten Oncologia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Public Sans', sans-serif; }
+    body { background: #f4f6f9; color: #1e293b; line-height: 1.6; }
+    
+    /* LOGIN */
+    #login-screen {
+      display: flex; align-items: center; justify-content: center;
+      min-height: 100vh; padding: 20px;
+    }
+    .login-card {
+      background: #fff; padding: 40px; border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08); width: 100%; max-width: 400px;
+    }
+    .login-card h1 { font-size: 1.5rem; margin-bottom: 8px; color: #0f172a; }
+    .login-card p { font-size: 0.9rem; color: #64748b; margin-bottom: 24px; }
+    
+    /* ADMIN PANEL */
+    #admin-screen { display: none; max-width: 1000px; margin: 0 auto; padding: 30px 20px 80px; }
+    .topbar {
+      display: flex; justify-content: space-between; align-items: center;
+      background: #fff; padding: 20px 28px; border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px; flex-wrap: wrap; gap: 15px;
+    }
+    .topbar h1 { font-size: 1.35rem; color: #0f172a; }
+    .topbar-actions { display: flex; gap: 10px; }
+
+    .card {
+      background: #fff; padding: 28px; border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04); margin-bottom: 24px;
+    }
+    .card h2 {
+      font-size: 1.15rem; color: #0f172a; margin-bottom: 20px;
+      padding-bottom: 10px; border-bottom: 1px solid #e2e8f0;
+    }
+
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-weight: 600; font-size: 0.88rem; margin-bottom: 6px; color: #334155; }
+    input[type="text"], input[type="email"], input[type="password"], textarea {
+      width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1;
+      border-radius: 8px; font-size: 0.95rem; transition: border-color 0.2s;
+    }
+    input:focus, textarea:focus { outline: none; border-color: #2563eb; }
+    textarea { min-height: 90px; resize: vertical; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+    /* IMAGE UPLOAD BOX */
+    .img-box {
+      border: 1px dashed #cbd5e1; border-radius: 10px; padding: 16px;
+      background: #f8fafc; display: flex; flex-direction: column; gap: 12px;
+    }
+    .img-preview {
+      width: 100%; height: 160px; object-fit: cover; border-radius: 6px;
+      background: #e2e8f0; border: 1px solid #cbd5e1;
+    }
+    .img-preview.logo-prev { object-fit: contain; background: #1e293b; padding: 10px; }
+
+    /* BUTTONS */
+    .btn {
+      padding: 11px 20px; border: none; border-radius: 8px; font-weight: 600;
+      font-size: 0.92rem; cursor: pointer; transition: all 0.2s; text-decoration: none;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .btn-primary { background: #2563eb; color: #fff; }
+    .btn-primary:hover { background: #1d4ed8; }
+    .btn-secondary { background: #e2e8f0; color: #1e293b; }
+    .btn-secondary:hover { background: #cbd5e1; }
+    .btn-danger { background: #fee2e2; color: #b91c1c; }
+    .btn-danger:hover { background: #fecaca; }
+
+    .floating-save {
+      position: fixed; bottom: 24px; right: 24px; z-index: 100;
+      box-shadow: 0 10px 25px rgba(37,99,235,0.35); padding: 14px 28px; font-size: 1rem;
+    }
+
+    .toast {
+      position: fixed; top: 20px; right: 20px; padding: 14px 22px;
+      border-radius: 8px; color: #fff; font-weight: 600; z-index: 999;
+      display: none; box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    .toast.success { background: #16a34a; }
+    .toast.error { background: #dc2626; }
+    .toast.info { background: #2563eb; }
+  </style>
+</head>
+<body>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- TELA DE LOGIN -->
+  <div id="login-screen">
+    <div class="login-card">
+      <h1>Área Restrita</h1>
+      <p>Faça login para editar textos e imagens do site.</p>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">E-mail</label>
+          <input type="email" id="login-email" required placeholder="seu@email.com" />
+        </div>
+        <div class="form-group">
+          <label for="login-password">Senha</label>
+          <input type="password" id="login-password" required placeholder="••••••••" />
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Entrar no Painel</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- PAINEL DE EDIÇÃO -->
+  <div id="admin-screen">
+    <div class="topbar">
+      <div>
+        <h1>Painel de Edição — Kersten Oncologia</h1>
+        <small style="color: #64748b;">Altere os textos ou selecione novas fotos e clique em Salvar.</small>
+      </div>
+      <div class="topbar-actions">
+        <a href="index.html" target="_blank" class="btn btn-secondary">Ver Site</a>
+        <button id="logout-btn" class="btn btn-danger">Sair</button>
+      </div>
+    </div>
+
+    <form id="cms-form">
+      
+      <!-- 1. IMAGENS DO SITE -->
+      <div class="card">
+        <h2>1. Imagens e Fotos do Site</h2>
+        <div class="grid-2">
+          
+          <div class="img-box">
+            <label>Logotipo Principal</label>
+            <img id="prev_img_logo" src="logo.png" class="img-preview logo-prev" alt="Logo" />
+            <input type="file" accept="image/*" data-img-key="img_logo" />
+          </div>
+
+          <div class="img-box">
+            <label>Foto Oficial do Dr. Bruno Kersten</label>
+            <img id="prev_img_doutor" src="drKersten.jpg" class="img-preview" alt="Dr. Bruno" />
+            <input type="file" accept="image/*" data-img-key="img_doutor" />
+          </div>
+
+          <div class="img-box">
+            <label>Página Inicial — Foto "Sobre o Consultório"</label>
+            <img id="prev_img_home_sobre" src="consultorio.jfif" class="img-preview" alt="Sobre" />
+            <input type="file" accept="image/*" data-img-key="img_home_sobre" />
+          </div>
+
+          <div class="img-box">
+            <label>Página Inicial — Foto "Sobre o Câncer"</label>
+            <img id="prev_img_home_cancer" src="consultorio.jfif" class="img-preview" alt="Câncer" />
+            <input type="file" accept="image/*" data-img-key="img_home_cancer" />
+          </div>
+
+          <div class="img-box">
+            <label>Página Inicial — Foto "Tratamentos"</label>
+            <img id="prev_img_home_tratamentos" src="consultorio.jfif" class="img-preview" alt="Tratamentos" />
+            <input type="file" accept="image/*" data-img-key="img_home_tratamentos" />
+          </div>
+
+          <div class="img-box">
+            <label>Galeria Consultório — Foto 1 (Recepção)</label>
+            <img id="prev_img_galeria_1" src="consultorio.jfif" class="img-preview" alt="Galeria 1" />
+            <input type="file" accept="image/*" data-img-key="img_galeria_1" />
+          </div>
+
+          <div class="img-box">
+            <label>Galeria Consultório — Foto 2 (Atendimento)</label>
+            <img id="prev_img_galeria_2" src="consultorio.jfif" class="img-preview" alt="Galeria 2" />
+            <input type="file" accept="image/*" data-img-key="img_galeria_2" />
+          </div>
+
+          <div class="img-box">
+            <label>Galeria Consultório — Foto 3 (Sala de Espera)</label>
+            <img id="prev_img_galeria_3" src="consultorio.jfif" class="img-preview" alt="Galeria 3" />
+            <input type="file" accept="image/*" data-img-key="img_galeria_3" />
+          </div>
+
+          <div class="img-box">
+            <label>Galeria Consultório — Foto 4 (Procedimentos)</label>
+            <img id="prev_img_galeria_4" src="consultorio.jfif" class="img-preview" alt="Galeria 4" />
+            <input type="file" accept="image/*" data-img-key="img_galeria_4" />
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 2. PÁGINA INICIAL -->
+      <div class="card">
+        <h2>2. Textos da Página Inicial (Início)</h2>
+        <div class="form-group">
+          <label>Título do Banner Principal (use &lt;br&gt; para quebrar linha)</label>
+          <input type="text" name="home_banner_titulo" value="Bem-vindo à Kersten<br>Oncologia." />
+        </div>
+        <div class="form-group">
+          <label>Subtítulo do Banner Principal</label>
+          <input type="text" name="home_banner_subtitulo" value="Atenção dedicada a cada etapa da sua jornada." />
+        </div>
+        <div class="form-group">
+          <label>Texto Resumo — Sobre o Consultório</label>
+          <textarea name="home_sobre_texto">Oferecemos atendimento especializado e suporte integral para o diagnóstico e tratamento oncológico. Nossa estrutura foi cuidadosamente planejada para garantir conforto, segurança e acolhimento a você e sua família em todas as etapas.</textarea>
+        </div>
+        <div class="form-group">
+          <label>Texto Resumo — Sobre o Câncer</label>
+          <textarea name="home_cancer_texto">O diagnóstico precoce aumenta significativamente as chances de sucesso no tratamento. Disponibilizamos consultas detalhadas e orientações sobre exames preventivos essenciais para a sua saúde.</textarea>
+        </div>
+        <div class="form-group">
+          <label>Texto Resumo — Tratamentos</label>
+          <textarea name="home_tratamentos_texto">Cada paciente possui uma história e necessidades únicas. Utilizamos protocolos atualizados e abordagens multidisciplinares para oferecer opções terapêuticas eficientes e seguras.</textarea>
+        </div>
+      </div>
+
+      <!-- 3. PÁGINA SOBRE O CONSULTÓRIO E DOUTOR -->
+      <div class="card">
+        <h2>3. Textos — Sobre o Consultório e Doutor</h2>
+        <div class="form-group">
+          <label>Sobre o Consultório (1º Parágrafo)</label>
+          <textarea name="cons_sobre_p1">A Kersten Oncologia nasceu do compromisso de oferecer uma medicina pautada pelo rigor científico, pela ética e pelo acolhimento humano. Entendemos que o diagnóstico oncológico traz consigo momentos de grande vulnerabilidade, e que o acompanhamento médico deve ir além da prescrição de tratamentos modernos: ele precisa ser sustentado por uma escuta atenta, pelo respeito à individualidade e por um suporte contínuo em cada etapa da jornada do paciente.</textarea>
+        </div>
+        <div class="form-group">
+          <label>Sobre o Consultório (2º Parágrafo)</label>
+          <textarea name="cons_sobre_p2">Nosso propósito fundamental é transformar a experiência do tratamento de saúde em um processo seguro, transparente e guiado pela empatia. Acreditamos que a tomada de decisão médica deve ser compartilhada de forma clara, permitindo que os pacientes e seus familiares sintam-se acolhidos, informados e confiantes em relação às estratégias terapêuticas adotadas ao longo de todo o acompanhamento.</textarea>
+        </div>
+        <div class="form-group">
+          <label>Legenda CRM / RQE do Doutor</label>
+          <input type="text" name="doutor_crm" value="Dr. Bruno Kersten • CRM 000000 / RQE 0000" />
+        </div>
+        <div class="form-group">
+          <label>Apresentação do Doutor (Página Consultório)</label>
+          <textarea name="doutor_bio_p1">O Dr. Bruno Kersten é médico oncologista dedicado a oferecer um atendimento técnico rigoroso, fundamentado nas mais recentes evidências científicas e pautado pelo respeito e acolhimento humano. Sua trajetória profissional é marcada pelo compromisso contínuo com a atualização médica e com o cuidado integral e individualizado de cada paciente.</textarea>
+        </div>
+        <div class="form-group">
+          <label>Apresentação Acadêmica (Página Portfólio — 1º Parágrafo)</label>
+          <textarea name="port_bio_p1">Graduado em Medicina pela Fundação Técnico Educacional Souza Marques (FTESM) em 2000, o Dr. Bruno Guilherme Kersten concluiu Residência Médica em Clínica Médica pelo Complexo Hospitalar do Mandaqui (2002) e Residência em Cancerologia Clínica pela prestigiada Fundação Dr. Amaral Carvalho (2004).</textarea>
+        </div>
+        <div class="form-group">
+          <label>Apresentação Acadêmica (Página Portfólio — 2º Parágrafo)</label>
+          <textarea name="port_bio_p2">Possui Registro de Qualificação de Especialista (RQE) em Oncologia Clínica pelo CREMESP e atua como Responsável Técnico (RT) no Centro de Tratamento Anti-Neoplásico (CTA) da Unimed Araçatuba. Também se destaca como Médico Speaker Regional para indústrias farmacêuticas globais de alta inovação.</textarea>
+        </div>
+      </div>
+
+      <!-- 4. CONTATO E ENDEREÇO -->
+      <div class="card">
+        <h2>4. Informações de Contato e Endereço (Todas as Páginas)</h2>
+        <div class="form-group">
+          <label>Endereço Completo (use &lt;br&gt; para quebrar linha)</label>
+          <input type="text" name="contato_endereco" value="Av. Paulista, 1000 — Sala 101<br />Bela Vista, São Paulo - SP, 01310-100" />
+        </div>
+        <div class="grid-2">
+          <div class="form-group">
+            <label>Horário de Funcionamento</label>
+            <input type="text" name="contato_horario" value="Segunda a Sexta: 08h às 18h" />
+          </div>
+          <div class="form-group">
+            <label>Telefone</label>
+            <input type="text" name="contato_telefone" value="(11) 3333-3333" />
+          </div>
+          <div class="form-group">
+            <label>WhatsApp</label>
+            <input type="text" name="contato_whatsapp" value="(11) 99999-9999" />
+          </div>
+          <div class="form-group">
+            <label>E-mail de Contato</label>
+            <input type="text" name="contato_email" value="contato@kerstenoncologia.com.br" />
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" id="save-btn" class="btn btn-primary floating-save">Salvar Alterações</button>
+    </form>
+  </div>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

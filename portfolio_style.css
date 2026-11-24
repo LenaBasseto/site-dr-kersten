@@ -1,0 +1,236 @@
+/* Página: Currículo
+   Base, navegação, rodapé, localização e títulos vêm de index_style.css */
+@import url('index_style.css');
+
+.portfolio-page-section {
+  padding: 88px 8%;
+  background-color: var(--paper);
+}
+
+.portfolio-page-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.location-section {
+  background-color: var(--mist);
+}
+
+/* ---------- FOTO E APRESENTAÇÃO ---------- */
+.doctor-profile-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 72px;
+  margin-bottom: 72px;
+}
+
+.doctor-photo-box {
+  position: relative;
+  isolation: isolate;
+  flex-shrink: 0;
+  width: 270px;
+  height: 340px;
+}
+
+.doctor-photo-box::before {
+  content: "";
+  position: absolute;
+  inset: 16px -16px -16px 16px;
+  border: 2px solid var(--blue);
+  border-radius: 3px;
+  z-index: -1;
+}
+
+.doctor-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 3px;
+}
+
+.doctor-bio-text {
+  flex: 1;
+}
+
+.doctor-bio-text h3 {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+
+.doctor-bio-text p {
+  color: var(--text);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.doctor-bio-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------- CURRÍCULO ---------- */
+.curriculum-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  margin-bottom: 72px;
+}
+
+.cv-category h3 {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 8px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--navy);
+}
+
+.cv-item {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 32px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.cv-year {
+  font-weight: 600;
+  color: var(--blue-deep);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.cv-details h4 {
+  font-size: 1.08rem;
+  color: var(--ink);
+  margin-bottom: 6px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.cv-inst {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.7;
+}
+
+.cv-inst strong {
+  color: var(--ink);
+}
+
+.cv-list-simple {
+  list-style: none;
+}
+
+.cv-list-simple li {
+  position: relative;
+  padding: 16px 0 16px 22px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.98rem;
+  color: var(--text);
+  line-height: 1.65;
+}
+
+.cv-list-simple li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 26px;
+  width: 8px;
+  height: 2px;
+  background-color: var(--rose);
+}
+
+.cv-list-simple strong {
+  color: var(--ink);
+}
+
+/* ---------- LATTES ---------- */
+.lattes-box {
+  background: var(--ink);
+  border-radius: 3px;
+  border-left: 5px solid var(--blue);
+  padding: 44px 48px;
+}
+
+.lattes-box h3 {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.lattes-box p {
+  font-size: 1rem;
+  color: #c9d6e5;
+  margin-bottom: 28px;
+  max-width: 62ch;
+  line-height: 1.75;
+}
+
+.lattes-box p strong {
+  color: #ffffff;
+}
+
+.btn-lattes {
+  display: inline-block;
+  padding: 12px 28px;
+  border: 1.5px solid #9fc3dc;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 3px;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.btn-lattes:hover {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: var(--ink);
+}
+
+/* ---------- RESPONSIVIDADE ---------- */
+@media (max-width: 999px) {
+  .portfolio-page-section {
+    padding: 64px 7%;
+  }
+
+  .doctor-profile-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 48px;
+    margin-bottom: 56px;
+  }
+
+  .doctor-photo-box {
+    width: 230px;
+    height: 290px;
+    margin-right: 16px;
+  }
+
+  .doctor-photo-box::before {
+    inset: 12px -12px -12px 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cv-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .cv-category h3 {
+    font-size: 1.4rem;
+  }
+
+  .lattes-box {
+    padding: 32px 26px;
+  }
+}

@@ -1,0 +1,782 @@
+/* ==========================================================
+   KERSTEN ONCOLOGIA
+   Direção: clínica, serena e confiável. Azul da marca mantido,
+   navy profundo para o texto e botões, e um rosa discreto
+   (referência ao Outubro Rosa) só nos pequenos acentos.
+   Títulos em serifa (Newsreader), texto em Public Sans.
+   ========================================================== */
+
+:root {
+  --ink: #12233f;
+  --navy: #1d3566;
+  --blue: #2aa0dc;
+  --blue-deep: #1b7aab;
+  --rose: #c0527c;
+  --mist: #eef3f7;
+  --paper: #fbfcfd;
+  --line: #d9e2ea;
+  --text: #3a4a5f;
+  --muted: #64748b;
+
+  --font-display: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-body: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--paper);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  transition: opacity 0.3s ease, color 0.3s ease;
+}
+
+:focus-visible {
+  outline: 3px solid var(--rose);
+  outline-offset: 3px;
+}
+
+/* ---------- NAVBAR ---------- */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--blue);
+  height: 85px;
+  padding: 0 4%;
+  position: relative;
+  z-index: 1000;
+  border-bottom: 3px solid var(--navy);
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.logo-img {
+  height: 100px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+}
+
+.nav-list li a {
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  padding: 6px 0;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.25s ease;
+}
+
+.nav-list li a:hover,
+.nav-list li a:focus-visible {
+  border-bottom-color: #fff;
+}
+
+.mobile-menu {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.mobile-menu span {
+  display: block;
+  width: 28px;
+  height: 2px;
+  background: #fff;
+  margin: 6px 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* ---------- MAIN ---------- */
+main {
+  background-color: var(--paper);
+  min-height: 84vh;
+}
+
+/* ---------- BANNER ---------- */
+.hero-section {
+  position: relative;
+  width: 100%;
+  height: 62vh;
+  min-height: 380px;
+  background-image: url('consultorio.jfif');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, rgba(14, 28, 56, 0.92) 25%, rgba(14, 28, 56, 0.35) 100%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  color: #ffffff;
+  padding-left: 8%;
+  max-width: 720px;
+}
+
+.hero-content h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.6rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  animation: heroIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.hero-content .divider {
+  display: block;
+  width: 56px;
+  height: 3px;
+  background-color: var(--rose);
+  margin: 22px 0;
+}
+
+.hero-content p {
+  font-size: 1.15rem;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 34ch;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- SEÇÕES DE CONTEÚDO ---------- */
+.about-section {
+  padding: 88px 8%;
+  background-color: var(--paper);
+}
+
+.about-section.alt-bg {
+  background-color: var(--mist);
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 72px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.about-container.reverse {
+  flex-direction: row-reverse;
+}
+
+.about-text {
+  flex: 1;
+}
+
+.about-text h2 {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 500;
+  color: var(--ink);
+  margin-bottom: 24px;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+}
+
+.about-text h2::before {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 3px;
+  background: var(--rose);
+  margin-bottom: 20px;
+}
+
+.about-text p {
+  font-size: 1.05rem;
+  color: var(--text);
+  line-height: 1.75;
+  margin-bottom: 32px;
+  max-width: 52ch;
+}
+
+.btn-saiba-mais {
+  display: inline-block;
+  padding: 13px 28px;
+  background-color: var(--navy);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  border-radius: 3px;
+  transition: background-color 0.25s ease;
+}
+
+.btn-saiba-mais:hover {
+  background-color: var(--blue-deep);
+}
+
+/* imagem com moldura deslocada */
+.about-image {
+  flex: 1;
+  position: relative;
+  isolation: isolate;
+}
+
+.about-image::before {
+  content: "";
+  position: absolute;
+  inset: 18px -18px -18px 18px;
+  border: 2px solid var(--blue);
+  border-radius: 3px;
+  z-index: -1;
+}
+
+.about-container.reverse .about-image::before {
+  inset: 18px 18px -18px -18px;
+}
+
+.about-image img {
+  display: block;
+  width: 100%;
+  height: 380px;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+/* ---------- CURRÍCULO ---------- */
+.portfolio-section {
+  padding: 88px 8%;
+  background-color: var(--ink);
+  color: #e6edf5;
+}
+
+.portfolio-header {
+  max-width: 800px;
+  margin: 0 auto 48px auto;
+  text-align: center;
+}
+
+.portfolio-header .section-subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: #9fc3dc;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.portfolio-header h2 {
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  color: #ffffff;
+  font-weight: 500;
+  letter-spacing: -0.4px;
+}
+
+.portfolio-header .section-line {
+  width: 36px;
+  height: 3px;
+  background-color: var(--rose);
+  margin: 20px auto 0 auto;
+}
+
+.portfolio-footer {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.portfolio-section .btn-saiba-mais {
+  background-color: transparent;
+  border: 1.5px solid #9fc3dc;
+  color: #ffffff;
+  padding: 11.5px 28px;
+}
+
+.portfolio-section .btn-saiba-mais:hover {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: var(--ink);
+}
+
+.carousel-wrapper {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.carousel-track-container {
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-track {
+  list-style: none;
+  display: flex;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.carousel-slide {
+  min-width: 100%;
+}
+
+.academic-card {
+  background: #ffffff;
+  border-left: 5px solid var(--blue);
+  border-radius: 3px;
+  padding: 44px 48px;
+  min-height: 250px;
+}
+
+.card-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.7rem;
+  color: var(--ink);
+  font-weight: 500;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.card-meta {
+  font-size: 0.95rem;
+  color: var(--blue-deep);
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.card-desc {
+  font-size: 1rem;
+  color: var(--text);
+  line-height: 1.75;
+  max-width: 62ch;
+}
+
+.carousel-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 26px;
+}
+
+.carousel-counter {
+  font-size: 0.95rem;
+  color: #9fb2c8;
+  font-variant-numeric: tabular-nums;
+}
+
+.carousel-counter strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.carousel-nav-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.carousel-arrow {
+  background: transparent;
+  border: 1.5px solid #4b6283;
+  color: #ffffff;
+  width: 46px;
+  height: 46px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.carousel-arrow:hover {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: var(--ink);
+}
+
+/* ---------- CONTATO E LOCALIZAÇÃO ---------- */
+.location-section {
+  padding: 88px 8%;
+  background-color: var(--paper);
+  color: var(--text);
+}
+
+.location-section .portfolio-header .section-subtitle {
+  color: var(--blue-deep);
+}
+
+.location-section .portfolio-header h2 {
+  color: var(--ink);
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 0;
+  align-items: stretch;
+  max-width: 1120px;
+  margin: 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.location-info {
+  background-color: #ffffff;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+}
+
+.location-info h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--ink);
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.location-details p {
+  font-size: 0.95rem;
+  color: var(--text);
+  line-height: 1.65;
+  margin-bottom: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.location-details p:last-child {
+  margin-bottom: 0;
+}
+
+.location-details strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.location-details a {
+  color: var(--blue-deep);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.location-details a:hover {
+  color: var(--navy);
+}
+
+.location-map {
+  min-height: 420px;
+}
+
+.location-map iframe {
+  display: block;
+  filter: saturate(0.8);
+}
+
+/* ---------- RODAPÉ ---------- */
+.footer {
+  padding: 44px 0 32px;
+  background-color: var(--ink);
+  border-top: 3px solid var(--rose);
+}
+
+.footer ul {
+  list-style: none;
+  font-size: 15px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
+
+.footer ul li {
+  display: inline-block;
+  padding: 0 14px;
+  margin-bottom: 10px;
+}
+
+.footer ul li a {
+  color: #ffffff;
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.footer ul li a:hover {
+  opacity: 1;
+  color: #9fc3dc;
+}
+
+.footer .copyright {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 13px;
+  color: #ffffff;
+  opacity: 0.55;
+}
+
+/* ---------- BOTÃO VOLTAR AO TOPO ---------- */
+#back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: var(--navy);
+  color: #ffffff;
+  border: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 3px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(18, 35, 63, 0.25);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.2s ease;
+  z-index: 999;
+}
+
+#back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#back-to-top:hover {
+  background-color: var(--blue-deep);
+}
+
+/* ---------- ANIMAÇÕES DO MENU MOBILE ---------- */
+.nav-list.active {
+  transform: translateX(0);
+}
+
+@keyframes navLinkFade {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.mobile-menu.active .line1 {
+  transform: rotate(-45deg) translate(-6px, 6px);
+}
+
+.mobile-menu.active .line2 {
+  opacity: 0;
+}
+
+.mobile-menu.active .line3 {
+  transform: rotate(45deg) translate(-5px, -5px);
+}
+
+/* ---------- RESPONSIVIDADE ---------- */
+@media (max-width: 999px) {
+  nav {
+    height: 70px;
+  }
+
+  .logo-img {
+    height: 46px;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  .nav-list {
+    position: fixed;
+    top: 73px; /* altura da navbar + borda */
+    right: 0;
+    width: 64vw;
+    max-width: 320px;
+    height: calc(100vh - 73px);
+    background: var(--navy);
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: -4px 0 14px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-list li {
+    opacity: 0;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+
+  .about-section,
+  .portfolio-section,
+  .location-section {
+    padding: 64px 7%;
+  }
+
+  .about-container,
+  .about-container.reverse {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 44px;
+  }
+
+  .about-text h2 {
+    font-size: 2rem;
+  }
+
+  .about-image::before,
+  .about-container.reverse .about-image::before {
+    inset: 12px -10px -12px 10px;
+  }
+
+  .about-image {
+    margin-right: 10px;
+  }
+
+  .about-image img {
+    height: 260px;
+  }
+
+  .academic-card {
+    padding: 32px 26px;
+  }
+
+  .card-body h3 {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 850px) {
+  .location-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .location-info {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .location-map {
+    height: 320px;
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 58vh;
+    background-position: center right;
+  }
+
+  .hero-overlay {
+    background: linear-gradient(to bottom, rgba(14, 28, 56, 0.88) 0%, rgba(14, 28, 56, 0.55) 100%);
+  }
+
+  .hero-content {
+    padding: 0 7%;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+  }
+
+  .portfolio-header h2 {
+    font-size: 2.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-content h1 {
+    animation: none;
+  }
+
+  .carousel-track,
+  .nav-list,
+  a,
+  .btn-saiba-mais {
+    transition: none;
+  }
+}
+
+/* ---------- TÍTULOS DE SEÇÃO COMPARTILHADOS (páginas internas) ---------- */
+.nav-list li a.active {
+  border-bottom-color: #fff;
+}
+
+.section-title,
+.about-clinic-header {
+  text-align: center;
+  margin-bottom: 44px;
+}
+
+.section-title .section-subtitle,
+.about-clinic-header .section-subtitle {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--blue-deep);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.section-title h2,
+.about-clinic-header h2 {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.3px;
+  color: var(--ink);
+}
+
+.section-title .section-line,
+.about-clinic-header .section-line {
+  width: 36px;
+  height: 3px;
+  background: var(--rose);
+  margin: 20px auto 0 auto;
+}
+
+@media (max-width: 768px) {
+  .section-title h2,
+  .about-clinic-header h2 {
+    font-size: 2rem;
+  }
+}
