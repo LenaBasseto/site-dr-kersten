@@ -1,10 +1,3 @@
-/* ==========================================================
-   KERSTEN ONCOLOGIA
-   Direção: clínica, serena e confiável. Azul da marca mantido,
-   navy profundo para o texto e botões, e um rosa discreto
-   (referência ao Outubro Rosa) só nos pequenos acentos.
-   Títulos em serifa (Newsreader), texto em Public Sans.
-   ========================================================== */
 
 :root {
   --ink: #12233f;
@@ -544,8 +537,22 @@ main {
   margin-top: 18px;
   text-align: center;
   font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.footer .admin-link {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 12px;
+  text-decoration: none;
+  margin-left: 12px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  transition: all 0.25s ease;
+}
+
+.footer .admin-link:hover {
   color: #ffffff;
-  opacity: 0.55;
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
 /* ---------- BOTÃO VOLTAR AO TOPO ---------- */
