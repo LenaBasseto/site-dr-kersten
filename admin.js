@@ -20,7 +20,7 @@ const arquivosSelecionados = {};
 // Campos onde a quebra de linha vira <br> no site
 const CAMPOS_COM_BR = ["home_banner_titulo", "contato_endereco"];
 
-// Enter nunca envia o formulário (só o botão Salvar envia).
+// Evita que o Enter envie o formulário fora de textareas
 cmsForm.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
     e.preventDefault();
@@ -79,7 +79,7 @@ document.querySelectorAll("input[type='file'][data-img-key]").forEach((input) =>
   });
 });
 
-// Carrega valores salvos no Firestore para preencher o formulário
+// Carrega valores salvos no Firestore
 async function carregarDadosNoPainel() {
   try {
     const docRef = doc(db, "site_conteudo", "geral");
@@ -109,12 +109,12 @@ async function carregarDadosNoPainel() {
   }
 }
 
-// Salvar tudo
+// Salvar textos e imagens
 cmsForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   saveBtn.disabled = true;
   saveBtn.textContent = "Salvando...";
-  mostrarAviso("Enviando alterações...", "info");
+  mostrarAviso("A enviar alterações...", "info");
 
   try {
     const novosDados = { ...dadosAtuais };
@@ -128,7 +128,7 @@ cmsForm.addEventListener("submit", async (e) => {
       novosDados[chave] = valor;
     });
 
-    // 2. Faz upload das imagens trocadas para o Cloudinary (se houver alguma)
+    // 2. Faz upload das imagens alteradas para o Cloudinary
     for (const [chave, arquivo] of Object.entries(arquivosSelecionados)) {
       const data = new FormData();
       data.append("file", arquivo);
@@ -140,12 +140,13 @@ cmsForm.addEventListener("submit", async (e) => {
       });
 
       const resultado = await resposta.json();
-      if (resultado.secure_url) {
+      
+      if (resposta.ok && resultado.secure_url) {
         novosDados[chave] = resultado.secure_url;
         delete arquivosSelecionados[chave];
       } else {
-        console.error("Erro retornado pelo Cloudinary:", resultado);
-        throw new Error("Falha ao enviar imagem para o Cloudinary: " + (resultado.error?.message || "Erro desconhecido"));
+        console.error("Erro do Cloudinary:", resultado);
+        throw new Error(resultado.error?.message || "Falha desconhecida no upload da imagem.");
       }
     }
 
@@ -156,7 +157,7 @@ cmsForm.addEventListener("submit", async (e) => {
     mostrarAviso("Site atualizado com sucesso!", "success");
   } catch (error) {
     console.error("Erro detalhado ao salvar:", error);
-    mostrarAviso("Erro ao salvar. Verifique a consola (F12).", "error");
+    mostrarAviso(`Erro ao salvar: ${error.message}`, "error");
   } finally {
     saveBtn.disabled = false;
     saveBtn.textContent = "Salvar Alterações";
