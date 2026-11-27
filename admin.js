@@ -15,6 +15,17 @@ const CLOUD_NAME = "helenabasseto";
 const UPLOAD_PRESET = "site_drkersten";
 
 let dadosAtuais = {};
+
+// Campos onde a quebra de linha vira <br> no site
+const CAMPOS_COM_BR = ["home_banner_titulo", "contato_endereco"];
+
+// Enter nunca envia o formulário (só o botão Salvar envia).
+// Nos <textarea> o Enter continua pulando linha normalmente.
+cmsForm.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+    e.preventDefault();
+  }
+});
 const arquivosSelecionados = {};
 
 function mostrarAviso(mensagem, tipo = "info") {
@@ -81,7 +92,11 @@ async function carregarDadosNoPainel() {
       Object.keys(dadosAtuais).forEach((chave) => {
         const campo = cmsForm.querySelector(`[name="${chave}"]`);
         if (campo) {
-          campo.value = dadosAtuais[chave];
+          let valor = dadosAtuais[chave];
+          if (CAMPOS_COM_BR.includes(chave) && typeof valor === "string") {
+            valor = valor.replace(/<br\s*\/?>/gi, "\n"); // <br> vira linha real no editor
+          }
+          campo.value = valor;
         }
         if (chave.startsWith("img_") && dadosAtuais[chave]) {
           const preview = document.getElementById(`prev_${chave}`);
@@ -108,6 +123,9 @@ cmsForm.addEventListener("submit", async (e) => {
     // 1. Coleta textos do formulário
     const formData = new FormData(cmsForm);
     formData.forEach((valor, chave) => {
+      if (CAMPOS_COM_BR.includes(chave)) {
+        valor = valor.replace(/\r?\n/g, "<br>"); // linha do editor vira <br> no site
+      }
       novosDados[chave] = valor;
     });
 
