@@ -42,7 +42,7 @@
     <main>
 
         <!-- VIDEO EXPLICATIVO -->
-        <section class="cancer-section">
+        <section class="cancer-section video-section">
             <div class="cancer-container">
                 <div class="section-title">
                     <h2>Entendendo o Câncer e Suas Causas</h2>
@@ -51,11 +51,15 @@
 
                 <div class="video-wrapper">
                     <div class="responsive-video">
-                        <iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"
-                            title="Vídeo Explicativo sobre Câncer e suas Causas"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen>
-                        </iframe>
+                        <video controls preload="metadata" playsinline
+                            poster="capa_animacao.PNG"
+                            title="Vídeo Explicativo sobre Câncer e suas Causas">
+                            <source src="Cancer_animacao.mp4" type="video/mp4">
+                            Seu navegador não suporta vídeo HTML5.
+                        </video>
+                        <button type="button" class="video-play" aria-label="Reproduzir vídeo">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+                        </button>
                     </div>
                 </div>
             </div>

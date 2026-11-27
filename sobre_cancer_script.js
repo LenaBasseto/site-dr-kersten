@@ -1,4 +1,3 @@
-// MENU MOBILE RESPONSIVO
 class MobileNavbar {
   constructor(mobileMenu, navList, navLinks) {
     this.mobileMenu = document.querySelector(mobileMenu);
@@ -65,5 +64,18 @@ if (backToTopButton) {
       top: 0,
       behavior: 'smooth'
     });
+  });
+}
+
+// CAPA E BOTAO DE PLAY DO VIDEO
+const videoEl = document.querySelector('.responsive-video video');
+const playBtn = document.querySelector('.video-play');
+
+if (videoEl && playBtn) {
+  playBtn.addEventListener('click', () => videoEl.play());
+  videoEl.addEventListener('play', () => playBtn.classList.add('hidden'));
+  videoEl.addEventListener('ended', () => {
+    videoEl.load(); // volta a exibir a capa
+    playBtn.classList.remove('hidden');
   });
 }
