@@ -15,18 +15,17 @@ const CLOUD_NAME = "helenabasseto";
 const UPLOAD_PRESET = "site_drkersten";
 
 let dadosAtuais = {};
+const arquivosSelecionados = {};
 
 // Campos onde a quebra de linha vira <br> no site
 const CAMPOS_COM_BR = ["home_banner_titulo", "contato_endereco"];
 
 // Enter nunca envia o formulário (só o botão Salvar envia).
-// Nos <textarea> o Enter continua pulando linha normalmente.
 cmsForm.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
     e.preventDefault();
   }
 });
-const arquivosSelecionados = {};
 
 function mostrarAviso(mensagem, tipo = "info") {
   toast.textContent = mensagem;
@@ -57,7 +56,7 @@ loginForm.addEventListener("submit", async (e) => {
     await signInWithEmailAndPassword(auth, email, senha);
     mostrarAviso("Login realizado com sucesso!", "success");
   } catch (error) {
-    console.error(error);
+    console.error("Erro no login:", error);
     mostrarAviso("E-mail ou senha inválidos.", "error");
   }
 });
@@ -94,7 +93,7 @@ async function carregarDadosNoPainel() {
         if (campo) {
           let valor = dadosAtuais[chave];
           if (CAMPOS_COM_BR.includes(chave) && typeof valor === "string") {
-            valor = valor.replace(/<br\s*\/?>/gi, "\n"); // <br> vira linha real no editor
+            valor = valor.replace(/<br\s*\/?>/gi, "\n");
           }
           campo.value = valor;
         }
@@ -110,7 +109,7 @@ async function carregarDadosNoPainel() {
   }
 }
 
-// Salvar tudo (Upload de imagens no Cloudinary + Gravação de textos no Firestore)
+// Salvar tudo
 cmsForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   saveBtn.disabled = true;
@@ -124,12 +123,12 @@ cmsForm.addEventListener("submit", async (e) => {
     const formData = new FormData(cmsForm);
     formData.forEach((valor, chave) => {
       if (CAMPOS_COM_BR.includes(chave)) {
-        valor = valor.replace(/\r?\n/g, "<br>"); // linha do editor vira <br> no site
+        valor = valor.replace(/\r?\n/g, "<br>");
       }
       novosDados[chave] = valor;
     });
 
-    // 2. Faz upload das imagens trocadas para o Cloudinary
+    // 2. Faz upload das imagens trocadas para o Cloudinary (se houver alguma)
     for (const [chave, arquivo] of Object.entries(arquivosSelecionados)) {
       const data = new FormData();
       data.append("file", arquivo);
@@ -145,7 +144,8 @@ cmsForm.addEventListener("submit", async (e) => {
         novosDados[chave] = resultado.secure_url;
         delete arquivosSelecionados[chave];
       } else {
-        throw new Error("Falha ao enviar imagem para o Cloudinary.");
+        console.error("Erro retornado pelo Cloudinary:", resultado);
+        throw new Error("Falha ao enviar imagem para o Cloudinary: " + (resultado.error?.message || "Erro desconhecido"));
       }
     }
 
@@ -155,8 +155,8 @@ cmsForm.addEventListener("submit", async (e) => {
 
     mostrarAviso("Site atualizado com sucesso!", "success");
   } catch (error) {
-    console.error("Erro ao salvar:", error);
-    mostrarAviso("Erro ao salvar. Verifique a consola.", "error");
+    console.error("Erro detalhado ao salvar:", error);
+    mostrarAviso("Erro ao salvar. Verifique a consola (F12).", "error");
   } finally {
     saveBtn.disabled = false;
     saveBtn.textContent = "Salvar Alterações";
